@@ -18,23 +18,32 @@ export default function Pagination({ next, previous }) {
 
 
   return (
-    <div className="flex justify-between py-4">
+    <div className="flex items-center justify-center gap-2 py-6">
       <button
         onClick={() => goToPage(previous)}
         disabled={!previous}
-        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        className="px-3 py-1 border rounded disabled:opacity-40"
       >
-        Previous
+        {"<"}
       </button>
+
+      {[1, 2, 3, 4, 5].map((num) => (
+        <button
+          key={num}
+          disabled
+          className="px-3 py-1 border rounded bg-gray-100 text-gray-400"
+        >
+          {num}
+        </button>
+      ))}
 
       <button
         onClick={() => goToPage(next)}
         disabled={!next}
-        className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+        className="px-3 py-1 border rounded disabled:opacity-40"
       >
-        Next
+        {">"}
       </button>
-
     </div>
 
   );
