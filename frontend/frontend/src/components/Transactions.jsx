@@ -13,6 +13,10 @@ export default function Transactions({ data }) {
             <th className="p-2">Age</th>
             <th className="p-2">Product Category</th>
             <th className="p-2">Quantity</th>
+            <th className="p-2">Total Amount</th>
+            <th className="p-2">Customer Region</th>
+            <th className="p-2">Product ID</th>
+            <th className="p-2">Employee Name</th>
           </tr>
         </thead>
 
@@ -30,6 +34,10 @@ export default function Transactions({ data }) {
               <td className="p-2">{row.age}</td>
               <td className="p-2">{row.product_category}</td>
               <td className="p-2">{row.quantity}</td>
+              <td className="p-2">{row.total_amount}</td>
+              <td className="p-2">{row.customer_region}</td>
+              <td className="p-2">{row.product_id}</td>
+              <td className="p-2">{row.employee_name}</td>
             </tr>
           ))}
         </tbody>
