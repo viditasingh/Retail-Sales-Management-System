@@ -4,8 +4,8 @@ import { TABLE_HEADERS } from "../utils/constants";
 export default function Transactions({ data }) {
   if (!data) {
     return (
-      <div className="bg-white rounded-xl shadow-md p-4">
-        <table className="w-full text-left text-sm">
+      <div className="bg-white rounded-xl shadow-md p-4 overflow-x-auto">
+        <table className="w-full text-left text-sm min-w-max">
           <thead className="border-b text-gray-600">
             <tr>
               {TABLE_HEADERS.map((header) => (
@@ -45,8 +45,8 @@ export default function Transactions({ data }) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4">
-      <table className="w-full text-left text-sm">
+    <div className="bg-white rounded-xl shadow-md p-4 overflow-x-auto">
+      <table className="w-full text-left text-sm min-w-max">
         <thead className="border-b text-gray-600">
           <tr>
             {TABLE_HEADERS.map((header) => (

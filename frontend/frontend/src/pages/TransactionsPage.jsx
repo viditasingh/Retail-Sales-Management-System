@@ -22,7 +22,7 @@ export default function TransactionsPage() {
         <FilterPanel />
 
         {/* Right side content */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-6 min-w-0">
           <Sorting />
           <SummaryCards />
 
