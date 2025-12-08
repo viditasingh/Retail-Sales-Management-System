@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import Skeleton from "./Skeleton";
 
 export default function Pagination({ next, previous }) {
@@ -18,6 +18,16 @@ export default function Pagination({ next, previous }) {
 
   const cursorStack = useMemo(getCursorStack, [params]);
   const getCurrentCursor = () => params.get("cursor") || null;
+
+  // Reset cursor stack if filters/search change (i.e., if not paginating)
+  useEffect(() => {
+    // If no cursor, clear stack
+    if (!params.get("cursor") && params.get("cursor_stack")) {
+      const newParams = new URLSearchParams(params);
+      newParams.delete("cursor_stack");
+      setParams(newParams);
+    }
+  }, [params]);
 
   // Go to next page: push current cursor to stack, set new cursor, update stack in URL
   const goToNext = () => {
