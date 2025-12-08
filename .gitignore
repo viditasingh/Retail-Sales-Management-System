@@ -64,5 +64,4 @@ yarn-error.log*
 Thumbs.db
 
 # Project specific
-truestate_assignment_dataset.csv
 .github
