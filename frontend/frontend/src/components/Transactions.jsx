@@ -1,4 +1,5 @@
 import Skeleton from "./Skeleton";
+import { TABLE_HEADERS } from "../utils/constants";
 
 export default function Transactions({ data }) {
   if (!data) {
@@ -7,17 +8,7 @@ export default function Transactions({ data }) {
         <table className="w-full text-left text-sm">
           <thead className="border-b text-gray-600">
             <tr>
-              {[
-                "Transaction ID",
-                "Date",
-                "Customer ID",
-                "Customer Name",
-                "Phone",
-                "Gender",
-                "Age",
-                "Product Category",
-                "Quantity",
-              ].map((header) => (
+              {TABLE_HEADERS.map((header) => (
                 <th key={header} className="p-2">
                   {header}
                 </th>
@@ -28,11 +19,11 @@ export default function Transactions({ data }) {
           <tbody>
             {[1, 2, 3, 4, 5].map((i) => (
               <tr key={i} className="border-b">
-                {Array(9).fill(0).map((_, idx) => (
-                    <td key={idx} className="p-2">
-                      <Skeleton className="h-4 w-full" />
-                    </td>
-                  ))}
+                {TABLE_HEADERS.map((_, idx) => (
+                  <td key={idx} className="p-2">
+                    <Skeleton className="h-4 w-full" />
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -58,19 +49,11 @@ export default function Transactions({ data }) {
       <table className="w-full text-left text-sm">
         <thead className="border-b text-gray-600">
           <tr>
-            <th className="p-2">Transaction ID</th>
-            <th className="p-2">Date</th>
-            <th className="p-2">Customer ID</th>
-            <th className="p-2">Customer Name</th>
-            <th className="p-2">Phone Number</th>
-            <th className="p-2">Gender</th>
-            <th className="p-2">Age</th>
-            <th className="p-2">Product Category</th>
-            <th className="p-2">Quantity</th>
-            <th className="p-2">Total Amount</th>
-            <th className="p-2">Customer Region</th>
-            <th className="p-2">Product ID</th>
-            <th className="p-2">Employee Name</th>
+            {TABLE_HEADERS.map((header) => (
+              <th key={header} className="p-2">
+                {header}
+              </th>
+            ))}
           </tr>
         </thead>
 

@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router";
+import { SORT_OPTIONS } from "../utils/constants";
 
 export default function Sorting() {
   const [params, setParams] = useSearchParams();
@@ -26,12 +27,11 @@ export default function Sorting() {
         value={params.get("sort") || ""}
         onChange={(e) => updateSort(e.target.value)}
       >
-        <option value="">Default</option>
-        <option value="customer_name">Customer Name (A–Z)</option>
-        <option value="date_desc">Date (Newest First)</option>
-        <option value="product_name">Product Name (A–Z)</option>
-        <option value="quantity">Quantity ↓(low-high)</option>
-        <option value="quantity_desc">Quantity ↑(high-low)</option>
+        {SORT_OPTIONS.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

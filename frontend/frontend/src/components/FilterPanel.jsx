@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router";
+import { FILTER_OPTIONS } from "../utils/constants";
 
 export default function FilterPanel() {
   const [params, setParams] = useSearchParams();
@@ -32,7 +33,7 @@ export default function FilterPanel() {
       <div>
         <p className="font-medium mb-2">Customer Region</p>
         <div className="flex flex-col gap-1 text-sm">
-          {["East", "West", "North", "South"].map((region) => (
+          {FILTER_OPTIONS.regions.map((region) => (
             <label key={region} className="flex gap-2">
               <input
                 type="checkbox"
@@ -49,7 +50,7 @@ export default function FilterPanel() {
       <div className="mt-4">
         <p className="font-medium mb-2">Gender</p>
         <div className="flex flex-col gap-1 text-sm">
-          {["Male", "Female", "Other"].map((g) => (
+          {FILTER_OPTIONS.genders.map((g) => (
             <label key={g} className="flex gap-2">
               <input
                 type="checkbox"
@@ -98,7 +99,7 @@ export default function FilterPanel() {
         <p className="font-medium mb-2">Product Category</p>
 
         <div className="flex flex-col gap-1 text-sm">
-          {["Clothing", "Electronics", "Beauty"].map((cat) => (
+          {FILTER_OPTIONS.categories.map((cat) => (
             <label key={cat} className="flex gap-2">
               <input
                 type="checkbox"
@@ -116,14 +117,7 @@ export default function FilterPanel() {
         <p className="font-medium mb-2">Tags</p>
 
         <div className="flex flex-col gap-1 text-sm">
-          {[
-            "Sale",
-            "Discount",
-            "New Arrival",
-            "Trending",
-            "Popular",
-            "Limited Stock",
-          ].map((tag) => (
+          {FILTER_OPTIONS.tags.map((tag) => (
             <label key={tag} className="flex gap-2">
               <input
                 type="checkbox"
@@ -141,18 +135,16 @@ export default function FilterPanel() {
         <p className="font-medium mb-2">Payment Method</p>
 
         <div className="flex flex-col gap-1 text-sm">
-          {["UPI", "Credit Card", "Debit Card", "Cash", "Wallet"].map(
-            (method) => (
-              <label key={method} className="flex gap-2">
-                <input
-                  type="checkbox"
-                  checked={params.getAll("payment_method").includes(method)}
-                  onChange={() => toggleValue("payment_method", method)}
-                />
-                {method}
-              </label>
-            )
-          )}
+          {FILTER_OPTIONS.paymentMethods.map((method) => (
+            <label key={method} className="flex gap-2">
+              <input
+                type="checkbox"
+                checked={params.getAll("payment_method").includes(method)}
+                onChange={() => toggleValue("payment_method", method)}
+              />
+              {method}
+            </label>
+          ))}
         </div>
       </div>
 
