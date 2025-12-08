@@ -70,10 +70,10 @@ export default function FilterPanel() {
             type="number"
             placeholder="Min"
             className="w-20 p-1 border rounded"
-            value={params.get("min_age") || ""}
+            value={params.get("age_min") || ""}
             onChange={(e) => {
               const newP = new URLSearchParams(params);
-              newP.set("min_age", e.target.value);
+              newP.set("age_min", e.target.value);
               newP.delete("cursor");
               setParams(newP);
             }}
@@ -82,10 +82,10 @@ export default function FilterPanel() {
             type="number"
             placeholder="Max"
             className="w-20 p-1 border rounded"
-            value={params.get("max_age") || ""}
+            value={params.get("age_max") || ""}
             onChange={(e) => {
               const newP = new URLSearchParams(params);
-              newP.set("max_age", e.target.value);
+              newP.set("age_max", e.target.value);
               newP.delete("cursor");
               setParams(newP);
             }}
@@ -127,8 +127,8 @@ export default function FilterPanel() {
             <label key={tag} className="flex gap-2">
               <input
                 type="checkbox"
-                checked={params.getAll("tag").includes(tag)}
-                onChange={() => toggleValue("tag", tag)}
+                checked={params.getAll("tags").includes(tag)}
+                onChange={() => toggleValue("tags", tag)}
               />
               {tag}
             </label>
@@ -146,8 +146,8 @@ export default function FilterPanel() {
               <label key={method} className="flex gap-2">
                 <input
                   type="checkbox"
-                  checked={params.getAll("payment").includes(method)}
-                  onChange={() => toggleValue("payment", method)}
+                  checked={params.getAll("payment_method").includes(method)}
+                  onChange={() => toggleValue("payment_method", method)}
                 />
                 {method}
               </label>
@@ -165,13 +165,13 @@ export default function FilterPanel() {
           <input
             type="date"
             className="p-1 border rounded"
-            value={params.get("start_date") || ""}
+            value={params.get("date_from") || ""}
             onChange={(e) => {
               const newParams = new URLSearchParams(params);
               if (e.target.value) {
-                newParams.set("start_date", e.target.value);
+                newParams.set("date_from", e.target.value);
               } else {
-                newParams.delete("start_date");
+                newParams.delete("date_from");
               }
               newParams.delete("cursor"); // reset pagination
               setParams(newParams);
@@ -182,13 +182,13 @@ export default function FilterPanel() {
           <input
             type="date"
             className="p-1 border rounded"
-            value={params.get("end_date") || ""}
+            value={params.get("date_to") || ""}
             onChange={(e) => {
               const newParams = new URLSearchParams(params);
               if (e.target.value) {
-                newParams.set("end_date", e.target.value);
+                newParams.set("date_to", e.target.value);
               } else {
-                newParams.delete("end_date");
+                newParams.delete("date_to");
               }
               newParams.delete("cursor");
               setParams(newParams);
