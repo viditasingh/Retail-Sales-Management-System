@@ -33,9 +33,8 @@ export default function Pagination({ next, previous }) {
   const goToNext = () => {
     if (!next) return;
     const currentCursor = getCurrentCursor();
-    const newStack = currentCursor
-      ? [...cursorStack, currentCursor]
-      : [...cursorStack];
+    // Always push currentCursor (even if null) to stack
+    const newStack = [...cursorStack, currentCursor];
     const cursor = new URL(next, window.location.origin).searchParams.get(
       "cursor"
     );
@@ -52,7 +51,9 @@ export default function Pagination({ next, previous }) {
     const newStack = [...cursorStack];
     const prevCursor = newStack.pop();
     const newParams = new URLSearchParams(params);
-    if (prevCursor) {
+    if (prevCursor === null) {
+      newParams.delete("cursor"); // Go to first page
+    } else if (prevCursor) {
       newParams.set("cursor", prevCursor);
     } else {
       newParams.delete("cursor");
