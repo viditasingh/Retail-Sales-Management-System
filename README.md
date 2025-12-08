@@ -10,7 +10,7 @@ A full-stack web application for viewing, filtering, searching, and analyzing re
 
 ## 🔗 Live Demo
 
-> **[Live Link - Coming Soon](#)**
+> **[Live Link](https://truestate-frontend-dedp.onrender.com)**
 
 ---
 
@@ -137,7 +137,7 @@ npm run dev
 
 ## 📸 Screenshots
 
-> _Screenshots coming soon_
+![dashboard](https://i.ibb.co/h182R4JJ/image.png)
 
 ---
 
