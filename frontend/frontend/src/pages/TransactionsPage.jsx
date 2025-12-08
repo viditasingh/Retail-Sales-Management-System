@@ -5,6 +5,7 @@ import Sorting from "../components/Sorting";
 import Transactions from "../components/Transactions";
 import Pagination from "../components/Pagination";
 import { useTransactions } from "../hooks/useTransactions";
+import SummaryCards from "../components/SummaryCards";
 
 export default function TransactionsPage() {
   const { data, isLoading } = useTransactions();
@@ -18,8 +19,9 @@ export default function TransactionsPage() {
         <FilterPanel />
 
         {/* Right side content */}
-        <div className="flex-1">
+        <div className="flex-1 p-6">
           <Sorting />
+          <SummaryCards />
 
           {isLoading ? (
             <p>Loading...</p>
