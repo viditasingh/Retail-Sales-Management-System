@@ -49,6 +49,6 @@ export const SORT_OPTIONS = [
   { value: "customer_name", label: "Customer Name (A–Z)" },
   { value: "date_desc", label: "Date (Newest First)" },
   { value: "product_name", label: "Product Name (A–Z)" },
-  { value: "quantity", label: "Quantity ↓(low-high)" },
-  { value: "quantity_desc", label: "Quantity ↑(high-low)" },
+  { value: "quantity", label: "Quantity (low-high)" },
+  { value: "quantity_desc", label: "Quantity (high-low)" },
 ];

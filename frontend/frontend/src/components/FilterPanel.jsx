@@ -1,3 +1,5 @@
+//for testing the filters
+
 import { useSearchParams } from "react-router";
 import { FILTER_OPTIONS } from "../utils/constants";
 

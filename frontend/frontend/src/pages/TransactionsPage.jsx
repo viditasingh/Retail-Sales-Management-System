@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
-import FilterPanel from "../components/FilterPanel";
+import FilterBar from "../components/FilterBar";
 import Sorting from "../components/Sorting";
 import Transactions from "../components/Transactions";
 import Pagination from "../components/Pagination";
@@ -12,30 +12,39 @@ export default function TransactionsPage() {
 
   return (
     <Layout>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Transactions</h1>
-        <SearchBar />
-      </div>
-
-      <div className="flex gap-6">
-        {/* Left side filters */}
-        <FilterPanel />
-
-        {/* Right side content */}
-        <div className="flex-1 p-6 min-w-0">
-          <Sorting />
-          <SummaryCards />
-
-          {isLoading ? (
-            <Transactions data={null} />
-          ) : (
-            <>
-              <Transactions data={data} />
-              <Pagination next={data?.next} previous={data?.previous} />
-            </>
-          )}
+      {/* Header with Title and Search */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Sales Management System
+          </h1>
+          <p className="text-gray-500 mt-1">
+            Track and manage your transactions
+          </p>
+        </div>
+        <div className="w-96">
+          <SearchBar />
         </div>
       </div>
+
+      {/* Filters Row */}
+      <div className="flex items-center justify-between mb-6">
+        <FilterBar />
+        <Sorting />
+      </div>
+
+      {/* Summary Cards */}
+      <SummaryCards />
+
+      {/* Transactions Table */}
+      {isLoading ? (
+        <Transactions data={null} />
+      ) : (
+        <>
+          <Transactions data={data} />
+          <Pagination next={data?.next} previous={data?.previous} />
+        </>
+      )}
     </Layout>
   );
 }
