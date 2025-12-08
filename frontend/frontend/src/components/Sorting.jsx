@@ -23,9 +23,10 @@ export default function Sorting() {
 
       <select
         className="border p-2 rounded text-sm"
-        value={params.get("sort") || "date_desc"}
+        value={params.get("sort") || ""}
         onChange={(e) => updateSort(e.target.value)}
       >
+        <option value="">Default</option>
         <option value="customer_name">Customer Name (A–Z)</option>
         <option value="date_desc">Date (Newest First)</option>
         <option value="product_name">Product Name (A–Z)</option>
