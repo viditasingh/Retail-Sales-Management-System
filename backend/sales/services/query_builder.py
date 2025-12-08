@@ -79,6 +79,7 @@ def build_transactions_queryset(params):
     sort_map = {
         "date_desc": "-date",
         "quantity": "quantity",
+        "quantity_desc": "-quantity",
         "customer_name": "customer_name",
         "product_name": "product_name",
     }

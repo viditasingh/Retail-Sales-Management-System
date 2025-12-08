@@ -30,7 +30,8 @@ export default function Sorting() {
         <option value="customer_name">Customer Name (A–Z)</option>
         <option value="date_desc">Date (Newest First)</option>
         <option value="product_name">Product Name (A–Z)</option>
-        <option value="quantity">Quantity</option>
+        <option value="quantity">Quantity ↓(low-high)</option>
+        <option value="quantity_desc">Quantity ↑(high-low)</option>
       </select>
     </div>
   );
