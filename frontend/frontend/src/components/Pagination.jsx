@@ -1,19 +1,38 @@
 import { useSearchParams } from "react-router";
+import { useRef } from "react";
 import Skeleton from "./Skeleton";
 
 export default function Pagination({ next, previous }) {
   const [params, setParams] = useSearchParams();
+  // Use a ref to store the cursor stack so it persists across renders
+  const cursorStack = useRef([]);
 
-  const goToPage = (url) => {
-    if (!url) return;
+  const getCurrentCursor = () => params.get("cursor") || null;
 
-    const cursor = new URL(url, window.location.origin).searchParams.get(
+  // Go to next page: push current cursor to stack, set new cursor
+  const goToNext = () => {
+    if (!next) return;
+    const currentCursor = getCurrentCursor();
+    if (currentCursor) cursorStack.current.push(currentCursor);
+    const cursor = new URL(next, window.location.origin).searchParams.get(
       "cursor"
     );
-
     const newParams = new URLSearchParams(params);
     newParams.set("cursor", cursor);
+    setParams(newParams);
+  };
 
+  // Go to previous page: pop last cursor from stack, set it
+  const goToPrevious = () => {
+    if (!previous) return;
+    if (cursorStack.current.length === 0) return;
+    const prevCursor = cursorStack.current.pop();
+    const newParams = new URLSearchParams(params);
+    if (prevCursor) {
+      newParams.set("cursor", prevCursor);
+    } else {
+      newParams.delete("cursor");
+    }
     setParams(newParams);
   };
 
@@ -24,10 +43,10 @@ export default function Pagination({ next, previous }) {
   return (
     <div className="flex items-center justify-center gap-2 py-8">
       <button
-        onClick={() => goToPage(previous)}
-        disabled={!previous}
+        onClick={goToPrevious}
+        disabled={!previous || cursorStack.current.length === 0}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-          previous
+          previous && cursorStack.current.length > 0
             ? "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 hover:border-2"
             : "bg-gray-100 text-gray-400 cursor-not-allowed"
         }`}
@@ -61,7 +80,7 @@ export default function Pagination({ next, previous }) {
       </div>
 
       <button
-        onClick={() => goToPage(next)}
+        onClick={goToNext}
         disabled={!next}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
           next
