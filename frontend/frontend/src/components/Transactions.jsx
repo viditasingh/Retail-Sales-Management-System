@@ -1,4 +1,17 @@
 export default function Transactions({ data }) {
+  
+  if (data?.results?.length === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow-md p-10 flex flex-col items-center justify-center text-center gap-3">
+        <div className="text-gray-400 text-5xl">📭</div>
+        <p className="text-gray-600 text-lg">No transactions found</p>
+        <p className="text-gray-500 text-sm max-w-sm">
+          Try adjusting your search, filters, or date range to find results.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-md p-4">
       <table className="w-full text-left text-sm">
