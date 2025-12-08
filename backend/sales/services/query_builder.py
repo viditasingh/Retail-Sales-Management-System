@@ -1,9 +1,31 @@
 from django.db import models
+from django.db.models import Q
+from django.db.models.functions import Concat
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.utils.dateparse import parse_datetime
 from dateutil.parser import parse
 
 from sales.models import Transaction
+
+
+def get_list_param(params, key):
+    """Get a list of values from query params, handling both comma-separated and repeated params"""
+    # Try getlist first (for repeated params like ?region=East&region=West)
+    if hasattr(params, 'getlist'):
+        values = params.getlist(key)
+        if values:
+            # Flatten any comma-separated values within the list
+            result = []
+            for v in values:
+                result.extend([x.strip() for x in v.split(",")])
+            return result
+
+    # Fallback to get (for single value or comma-separated)
+    value = params.get(key)
+    if value:
+        return [v.strip() for v in value.split(",")]
+
+    return []
 
 
 def build_transactions_queryset(params):
@@ -12,43 +34,52 @@ def build_transactions_queryset(params):
     # multiple filters selection
 
     # payment methods
-    payment_method = params.get("payment_method")
-    if payment_method:
-        qs = qs.filter(payment_method__in=[p.strip() for p in payment_method.split(",")])
+    payment_methods = get_list_param(params, "payment_method")
+    if payment_methods:
+        qs = qs.filter(payment_method__in=payment_methods)
 
     # product category
-    category = params.get("category")
-    if category:
-        qs = qs.filter(product_category__in=[c.strip() for c in category.split(",")])
+    categories = get_list_param(params, "category")
+    if categories:
+        qs = qs.filter(product_category__in=categories)
 
     # region
-    region = params.get("region")
-    if region:
-        qs = qs.filter(customer_region__in=[r.strip() for r in region.split(",")])
+    regions = get_list_param(params, "region")
+    if regions:
+        qs = qs.filter(customer_region__in=regions)
 
     # gender
-    gender = params.get("gender")
-    if gender:
-        qs = qs.filter(gender__in=[g.strip() for g in gender.split(",")])
+    genders = get_list_param(params, "gender")
+    if genders:
+        qs = qs.filter(gender__in=genders)
 
     # tags : when any of the tags are matched, the data is shown
-    tags = params.get("tags")
+    tags = get_list_param(params, "tags")
     if tags:
-        tag_list = [t.strip() for t in tags.split(",")]
-        qs = qs.filter(tags__overlap=tag_list)
+        qs = qs.filter(tags__overlap=tags)
 
 
     # text search
     q = params.get("q")
     if q:
-        vector = (
-            SearchVector("customer_name", weight="A") +
-            SearchVector("phone_number", weight="B")
-        )
+        # Clean up phone number searches - remove +91, spaces, and common prefixes
+        search_term = q.strip()
+        if search_term.startswith("+91"):
+            search_term = search_term[3:].strip()
+        elif search_term.startswith("91") and len(search_term) > 10:
+            search_term = search_term[2:].strip()
+        # Remove any remaining spaces or dashes from phone-like queries
+        cleaned_term = search_term.replace(" ", "").replace("-", "")
 
-        query = SearchQuery(q, search_type="plain")
-
-        qs = qs.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.1).order_by("-rank", "-date", "-id")
+        # Use simple icontains for phone number searches (much faster)
+        if cleaned_term.isdigit() and len(cleaned_term) >= 4:
+            qs = qs.filter(phone_number__icontains=cleaned_term)
+        else:
+            # Use icontains for name search (faster than full-text for simple queries)
+            qs = qs.filter(
+                Q(customer_name__icontains=search_term) |
+                Q(phone_number__icontains=search_term)
+            )
 
 
     # range filter
@@ -65,8 +96,8 @@ def build_transactions_queryset(params):
     # age range
     age_max = params.get("age_max")
     age_min = params.get("age_min")
-    if min_age and max_age and int(min_age) > int(max_age):
-      min_age, max_age = max_age, min_age
+    if age_min and age_max and int(age_min) > int(age_max):
+        age_min, age_max = age_max, age_min
 
     if age_max:
         qs = qs.filter(age__lte=int(age_max))
