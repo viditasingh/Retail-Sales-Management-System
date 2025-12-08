@@ -65,6 +65,8 @@ def build_transactions_queryset(params):
     # age range
     age_max = params.get("age_max")
     age_min = params.get("age_min")
+    if min_age and max_age and int(min_age) > int(max_age):
+      min_age, max_age = max_age, min_age
 
     if age_max:
         qs = qs.filter(age__lte=int(age_max))
