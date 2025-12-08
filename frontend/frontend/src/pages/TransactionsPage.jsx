@@ -27,7 +27,7 @@ export default function TransactionsPage() {
           <SummaryCards />
 
           {isLoading ? (
-            <p>Loading...</p>
+            <Transactions data={null} />
           ) : (
             <>
               <Transactions data={data} />

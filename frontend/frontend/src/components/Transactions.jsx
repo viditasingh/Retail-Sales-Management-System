@@ -1,5 +1,46 @@
+import Skeleton from "./Skeleton";
+
 export default function Transactions({ data }) {
-  
+  if (!data) {
+    return (
+      <div className="bg-white rounded-xl shadow-md p-4">
+        <table className="w-full text-left text-sm">
+          <thead className="border-b text-gray-600">
+            <tr>
+              {[
+                "Transaction ID",
+                "Date",
+                "Customer ID",
+                "Customer Name",
+                "Phone",
+                "Gender",
+                "Age",
+                "Product Category",
+                "Quantity",
+              ].map((header) => (
+                <th key={header} className="p-2">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <tr key={i} className="border-b">
+                {Array(9).fill(0).map((_, idx) => (
+                    <td key={idx} className="p-2">
+                      <Skeleton className="h-4 w-full" />
+                    </td>
+                  ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   if (data?.results?.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-md p-10 flex flex-col items-center justify-center text-center gap-3">

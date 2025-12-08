@@ -4,18 +4,27 @@ export default function Pagination({ next, previous }) {
   const [params, setParams] = useSearchParams();
 
   const goToPage = (url) => {
-  if (!url) return;
+    if (!url) return;
 
-  // console.log("GO TO PAGE URL:", url);
-  const cursor = new URL(url, window.location.origin).searchParams.get("cursor");
-  // console.log("EXTRACTED CURSOR:", cursor);
+    // console.log("GO TO PAGE URL:", url);
+    const cursor = new URL(url, window.location.origin).searchParams.get(
+      "cursor"
+    );
+    // console.log("EXTRACTED CURSOR:", cursor);
 
-  const newParams = new URLSearchParams(params);
-  newParams.set("cursor", cursor);
+    const newParams = new URLSearchParams(params);
+    newParams.set("cursor", cursor);
 
-  setParams(newParams);
-};
+    setParams(newParams);
+  };
 
+  if (!next && !previous) {
+    return (
+      <div className="flex justify-center py-4">
+        <Skeleton className="h-8 w-48" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center gap-2 py-6">
@@ -45,6 +54,5 @@ export default function Pagination({ next, previous }) {
         {">"}
       </button>
     </div>
-
   );
 }
