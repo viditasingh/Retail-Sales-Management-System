@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router";
+import Skeleton from "./Skeleton";
 
 export default function Pagination({ next, previous }) {
   const [params, setParams] = useSearchParams();
