@@ -1,6 +1,5 @@
 databases:
   - name: truestate-db
-    plan: free
     databaseName: truestate
     postgresMajorVersion: 16
     region: singapore
@@ -14,7 +13,6 @@ services:
     rootDir: backend
     buildCommand: ./build.sh
     startCommand: gunicorn backend.wsgi
-    plan: free
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -25,21 +23,20 @@ services:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        # This is a placeholder; after first deploy, update it to the exact backend hostname
+        # Placeholder; after first deploy, change to the exact backend hostname Render assigns
         value: truestate-backend.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        # Placeholder; update to the actual frontend hostname after first deploy
+        # Placeholder; after first deploy, change to the actual frontend hostname
         value: https://truestate-frontend.onrender.com
 
-  # Frontend (Vite React)
+  # Frontend (Vite React static site)
   - type: web
     name: truestate-frontend
     runtime: static
     rootDir: frontend/frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
     envVars:
       - key: VITE_API_URL
-        # Placeholder; update to actual backend hostname after first deploy
+        # Placeholder; after first deploy, change to actual backend hostname
         value: https://truestate-backend.onrender.com/api
