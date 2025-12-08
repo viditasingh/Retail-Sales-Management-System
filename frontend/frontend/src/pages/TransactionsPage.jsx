@@ -12,7 +12,10 @@ export default function TransactionsPage() {
 
   return (
     <Layout>
-      <SearchBar />
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-semibold">Transactions</h1>
+        <SearchBar />
+      </div>
 
       <div className="flex gap-6">
         {/* Left side filters */}
@@ -28,10 +31,7 @@ export default function TransactionsPage() {
           ) : (
             <>
               <Transactions data={data} />
-              <Pagination
-                next={data?.next}
-                previous={data?.previous}
-              />
+              <Pagination next={data?.next} previous={data?.previous} />
             </>
           )}
         </div>
